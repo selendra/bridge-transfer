@@ -1,0 +1,25 @@
+{
+  "name": "bridge-transfer",
+  "version": "1.0.0",
+  "description": "bridge between selendra and evm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selendra/bridge-transfer.git"
+  },
+  "author": "nath.selendra@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/selendra/bridge-transfer/issues"
+  },
+  "homepage": "https://github.com/selendra/bridge-transfer#readme",
+  "dependencies": {
+    "@polkadot/api": "^7.1.1",
+    "@polkadot/util": "^8.2.2",
+    "@polkadot/util-crypto": "^8.2.2",
+    "ethers": "^5.4.4"
+  }
+}
