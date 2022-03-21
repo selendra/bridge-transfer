@@ -2,7 +2,7 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { Keyring } = require( '@polkadot/keyring');
-const constants = require("./constants")
+const constants = require("../constants")
 
 async function nativeTransfer(mnemonic, recipient, amount) {
     console.log("starting native transfer...")

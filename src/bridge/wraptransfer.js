@@ -1,7 +1,8 @@
 const ethers = require('ethers');
 const { decodeAddress } = require('@polkadot/util-crypto');
 const { u8aToHex } = require('@polkadot/util');
-const constants = require("./constants")
+const constants = require("../constants");
+const waitForTx = require("../utils");
 
 function getHex(substrateAdress){
     const publicKey = decodeAddress(substrateAdress);
@@ -9,8 +10,8 @@ function getHex(substrateAdress){
     return hexPublicKey
 }
 
-async function approve(privatekey, amount){
-    console.log("Approve before transfer ...")
+async function wrapApprove(privatekey, amount){
+    console.log("Start Approve before transfer ...")
     const provider = new ethers.providers.JsonRpcProvider (
         constants.BRIDGEPROVIDER, {chainId: constants.BRIDGECHAINID}
     );
@@ -23,16 +24,15 @@ async function approve(privatekey, amount){
         wallet
     );
 
-    await erc20Instance.approve(
+    const tx = await erc20Instance.approve(
         constants.ERC20HANDLERCONTRACT, 
         approveAmount
     );
-
-    console.log("You have been approve...");
+    await waitForTx(provider, tx.hash);
 }
 
 async function wrapTransfer(privatekey, substrateAdress, amount){
-    console.log("starting Wrap transfer...");
+    console.log("Start Wrap transfer...");
     const provider = new ethers.providers.JsonRpcProvider (
        constants.BRIDGEPROVIDER, {chainId: constants.BRIDGECHAINID}
     );
@@ -48,13 +48,13 @@ async function wrapTransfer(privatekey, substrateAdress, amount){
             ethers.utils.hexZeroPad(ethers.utils.hexlify((recipient.length - 2)/2), 32).substr(2) +    // len(recipientAddress) (32 bytes)
             recipient.substr(2);
 
-    await bridgeInstance.deposit(
+    const tx = await bridgeInstance.deposit(
         constants.SELENDRABRIDGECHAINID, 
         constants.BRIDGERESOURCEID, 
         data,
     );
-    console.log("balance have been transfer....");
+    await waitForTx(provider, tx.hash);
 }
 
 module.exports.wrapTransfer = wrapTransfer;
-module.exports.approve = approve;
+module.exports.wrapApprove = wrapApprove;
