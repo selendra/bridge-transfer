@@ -1,5 +1,6 @@
-// Contract
+require('dotenv').config();
 
+// Contract
 module.exports.ContractABIs = {
     Bridge: require("../contract/Bridge.json"),
     Erc20: require("../contract/erc20.json"),
@@ -24,3 +25,6 @@ module.exports.BRIDGERESOURCEID="0x0000000000000000000000Dd030D6a093B75972aF6B45
 // Selendra V2
 module.exports.SELENDRAADDRESS="0xc696b7A5De48EE7b63B947F50d9d2518AD0446fb";
 module.exports.SELENDRAHANDLERS="0x38560226bd72e5bae08a99b0756354ceE3dDf454";
+
+//MoongDB
+module.exports.DBURI=process.env.DBURI;

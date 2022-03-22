@@ -2,7 +2,7 @@ const ethers = require('ethers');
 const { decodeAddress } = require('@polkadot/util-crypto');
 const { u8aToHex } = require('@polkadot/util');
 const constants = require("../constants");
-const waitForTx = require("../utils");
+const {waitForTx, saveWN} = require("../utils/utils");
 
 function getHex(substrateAdress){
     const publicKey = decodeAddress(substrateAdress);
@@ -53,6 +53,9 @@ async function wrapTransfer(privatekey, substrateAdress, amount){
         constants.BRIDGERESOURCEID, 
         data,
     );
+
+    await saveWN(wallet.address, substrateAdress, amount, tx.hash)
+
     await waitForTx(provider, tx.hash);
 }
 

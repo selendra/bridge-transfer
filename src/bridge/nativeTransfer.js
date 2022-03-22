@@ -2,7 +2,8 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
 const { Keyring } = require( '@polkadot/keyring');
-const constants = require("../constants")
+const constants = require("../constants");
+const { saveNW } = require("../utils/utils");
 
 async function nativeTransfer(mnemonic, recipient, amount) {
     console.log("starting native transfer...")
@@ -16,10 +17,12 @@ async function nativeTransfer(mnemonic, recipient, amount) {
     const transferAmount = BigInt(amount * Math.pow(10, api.registry.chainDecimals));
 
     const nonce = await api.rpc.system.accountNextIndex(account.address);
-    await api.tx.bridgeTransfer
+    const tx = await api.tx.bridgeTransfer
         .transferNative(transferAmount, recipient, constants.BRIDGECHAINID)
         .signAndSend(account, { nonce});
     
+    await saveNW(account.address, recipient, amount, tx.toHex());
+
     console.log("balance have been transfer....");
     process.exit(1);
 }

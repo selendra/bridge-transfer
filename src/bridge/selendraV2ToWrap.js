@@ -1,5 +1,5 @@
 const constants = require("../constants");
-const waitForTx = require("../utils");
+const {waitForTx, saveSW, saveWS} = require("../utils/utils");
 const ethers = require('ethers');
 
 async function approveForHandler(privatekey, amount){
@@ -20,6 +20,7 @@ async function approveForHandler(privatekey, amount){
         constants.SELENDRAHANDLERS, 
         approveAmount
     );
+
     await waitForTx(provider, tx.hash);
 }
 
@@ -59,6 +60,9 @@ async function selendraToWrap(privatekey, amount){
     );
 
     const tx = await selendraHandle.swapBridge(swapAmount);
+
+    await saveSW(wallet.address, amount, tx.hash);
+
     await waitForTx(provider, tx.hash);
 }
 
@@ -77,6 +81,9 @@ async function withdrawFromWrap(privatekey, amount){
     );
 
     const tx = await selendraHandle.withdraw(withdrawAmount);
+
+    await saveWS(wallet.address, amount, tx.hash);
+
     await waitForTx(provider, tx.hash);
 }
 

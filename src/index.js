@@ -1,5 +1,5 @@
 const nativeTransfer = require("./bridge/nativeTransfer");
-const {wrapApprove, wrapTransfer} = require("./bridge/wraptransfer");
+const {wrapApprove, wrapTransfer} = require("./bridge/wrapTransfer");
 const { approveForHandler, selendraToWrap, withdrawFromWrap, approveForWrap } = require("./bridge/selendraV2ToWrap");
 
 async function withdrawToSelendraV2(privatekey, amount) {
